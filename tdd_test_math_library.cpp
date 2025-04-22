@@ -1,10 +1,11 @@
 #include <gtest/gtest.h>
-#include "math_library.h"
+#include "mathlib.h"
+#include <climits>
 
 TEST(MathLibraryTest, AddTest) {
     EXPECT_EQ(add(0, 0), 0);
     EXPECT_EQ(add(2,3), 5);
-    EXPECT_EQ(add(-5, 3), 2);
+    EXPECT_EQ(add(-5, 3), -2);
     EXPECT_EQ(add(-15, -21), -36);
     EXPECT_NE(add(15, 16), -1);
     EXPECT_GT(add(2000, 2555), 2888);
@@ -82,7 +83,7 @@ TEST(MathLibraryTest, RootTest) {
     EXPECT_EQ(root(81, 2), 9);
     EXPECT_EQ(root(27, 3), 3);
     EXPECT_EQ(root(-125, 3), -5);
-    EXPECT_NE(root(36, 2), 6);
+    EXPECT_EQ(root(36, 2), 6);
     EXPECT_THROW(root(5, 0), std::invalid_argument);
     EXPECT_THROW(root(-36, 2), std::invalid_argument);
     EXPECT_THROW(root(64, -3), std::invalid_argument);
