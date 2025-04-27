@@ -1,42 +1,72 @@
 cmake_minimum_required(VERSION 3.16)
-project(MathLibraryTests VERSION 1.0 LANGUAGES CXX)
+project(SkibidiCalculator VERSION 1.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+set(CMAKE_AUTOUIC ON)
 
-# Qt compatibility (optional):
-# find_package(Qt6 REQUIRED COMPONENTS Core)
-# set(QT_LIBS Qt6::Core)
+# Qt
+find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets)
 
-include(FetchContent)
-FetchContent_Declare(
-  googletest
-  URL https://github.com/google/googletest/archive/refs/tags/v1.14.0.zip
-)
-
-set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-set(BUILD_GMOCK OFF CACHE BOOL "" FORCE)
-set(INSTALL_GTEST OFF CACHE BOOL "" FORCE)
-FetchContent_MakeAvailable(googletest)
-
-enable_testing()
-
-# Add test executable
-add_executable(test_math
+# === Main app ===
+add_executable(SkibidiCalculator
+    main.cpp
+    calculator.cpp
+    calculator.h
     mathlib.cpp
-    tdd_test_math_library.cpp
+    mathlib.h
 )
 
-# Include local headers
-target_include_directories(test_math PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(SkibidiCalculator PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
-# Link with GoogleTest and pthread
-target_link_libraries(test_math
-    GTest::gtest
-    GTest::gtest_main
-    pthread
-    # ${QT_LIBS}  # Uncomment if using Qt
+target_link_libraries(SkibidiCalculator
+    Qt6::Core
+    Qt6::Gui
+    Qt6::Widgets
 )
 
-include(GoogleTest)
-gtest_discover_tests(test_math)
+if(WIN32)
+    set_target_properties(SkibidiCalculator PROPERTIES WIN32_EXECUTABLE TRUE)
+endif()
+
+install(TARGETS SkibidiCalculator
+    RUNTIME DESTINATION bin
+)
+
+# === Tests (optional) ===
+
+option(BUILD_TESTS "Build and run unit tests" OFF)
+
+if(BUILD_TESTS)
+    enable_testing()
+
+    include(FetchContent)
+    FetchContent_Declare(
+        googletest
+        URL https://github.com/google/googletest/archive/refs/tags/v1.14.0.zip
+    )
+
+    set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+    set(BUILD_GMOCK OFF CACHE BOOL "" FORCE)
+    set(INSTALL_GTEST OFF CACHE BOOL "" FORCE)
+    FetchContent_MakeAvailable(googletest)
+
+    add_executable(test_math
+        mathlib.cpp
+        mathlib.h
+        tdd_test_math_library.cpp
+    )
+
+    target_include_directories(test_math PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+
+    target_link_libraries(test_math
+        GTest::gtest
+        GTest::gtest_main
+        pthread
+    )
+
+    include(GoogleTest)
+    gtest_discover_tests(test_math)
+endif()
