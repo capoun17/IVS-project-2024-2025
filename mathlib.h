@@ -12,7 +12,7 @@
  * @return a + b
  * @throws std::overflow_error if the result would overflow
  */
-int add(int a, int b);
+double add(double a, double b);
 
 /**
  * @brief Subtracts 2 integers with overflow check
@@ -21,7 +21,7 @@ int add(int a, int b);
  * @return a - b
  * @throws std::overflow_error if the result would overflow
  */
-int substract(int a, int b);
+double substract(double a, double b);
 
 /**
  * @brief Multiplies 2 integers with overflow check
@@ -30,7 +30,7 @@ int substract(int a, int b);
  * @return a * b
  * @throws std::overflow_error if the result would overflow
  */
-int multiply(int a, int b);
+double multiply(double a, double b);
 
 /**
  * @brief Divides 2 integers with division by zero check
@@ -39,7 +39,7 @@ int multiply(int a, int b);
  * @return a / b
  * @throws std::invalid_argument if b is zero
  */
-int divide(int a, int b);
+double divide(double a, double b);
 
 /**
  * @brief Calculates factorial of an integer
@@ -48,7 +48,7 @@ int divide(int a, int b);
  * @throws std::invalid_argument if n is negative
  * @throws std::overflow_error if the result would overflow
  */
-int factorial(int n);
+double factorial(double n);
 
 /**
  * @brief Calculates power of a base to an exponent
@@ -58,7 +58,7 @@ int factorial(int n);
  * @throws std::invalid_argument if n is negative
  * @throws std::overflow_error if the result would overflow
  */
-int power(int x, int n);
+double power(double x, double n);
 
 /**
  * @brief Calculates the n-th root of x
@@ -67,7 +67,7 @@ int power(int x, int n);
  * @return n-th root of x
  * @throws std::invalid_argument if n is non-positive or if x is negative and n is even
  */
-int root(int x, int n);
+double root(double x, int n);
 
 /**
  * @brief Calculates the Greatest Common Divisor of two integers

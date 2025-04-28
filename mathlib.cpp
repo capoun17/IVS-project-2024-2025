@@ -3,33 +3,39 @@
 #include <cmath>
 #include <stdexcept>
 
-int add(int a, int b) {
+double add(double a, double b) {
+
+    double result = a + b;
     // Check for overflow when adding positive numbers
-    if (b > 0 && a > std::numeric_limits<int>::max() - b)
+    if (std::isinf(result)) 
     {
-        throw std::overflow_error("Integer overflow in addition");
+        throw std::overflow_error("Overflow or underflow in addition");
+    }
+    if (result > std::numeric_limits<double>::max())
+    {
+        throw std::overflow_error("Overflow in addition");
     }
     // Check for overflow when adding negative numbers
-    if (b < 0 && a < std::numeric_limits<int>::min() - b)
+    if (result < std::numeric_limits<double>::lowest())
     {
-        throw std::overflow_error("Integer overflow in addition");
+        throw std::overflow_error("Overflow in addition");
     }
 
-    return a + b;
+    return result;
 }
 
-int substract(int a, int b) {
+double substract(double a, double b) {
     // Subtraction can be rewritten as a + (-b)
     // Check for overflow when negating b
-    if (b == std::numeric_limits<int>::min())
+    if (b == std::numeric_limits<double>::lowest())
     {
-        throw std::overflow_error("Integer overflow in subtraction");
+        throw std::overflow_error("Overflow in subtraction");
     }
 
     return add(a, -b);
 }
 
-int multiply(int a, int b) {
+double multiply(double a, double b) {
     // Handle special cases
     if (a == 0 || b == 0)
     {
@@ -37,33 +43,39 @@ int multiply(int a, int b) {
     }
     
     // Check for overflow
-    if ((a > 0 && b > 0 && a > std::numeric_limits<int>::max() / b) ||
-        (a < 0 && b < 0 && a < std::numeric_limits<int>::max() / b) ||
-        (a > 0 && b < 0 && b < std::numeric_limits<int>::min() / a) ||
-        (a < 0 && b > 0 && a < std::numeric_limits<int>::min() / b))
+    if ((a > 0 && b > 0 && a > std::numeric_limits<double>::max() / b) ||
+        (a < 0 && b < 0 && a < std::numeric_limits<double>::max() / b) ||
+        (a > 0 && b < 0 && b < std::numeric_limits<double>::lowest() / a) ||
+        (a < 0 && b > 0 && a < std::numeric_limits<double>::lowest() / b))
     {
-        throw std::overflow_error("Integer overflow in multiplication");
+        throw std::overflow_error("Overflow in multiplication");
     }
     
     return a * b;
 }
 
-int divide(int a, int b) {
+double divide(double a, double b) {
     if (b == 0)
     {
         throw std::invalid_argument("Division by zero");
     }
     
+    double result = a / b;
     // Check for overflow in division (only happens with INT_MIN / -1)
-    if (a == std::numeric_limits<int>::min() && b == -1)
+    if (std::isinf(result))
     {
-        throw std::overflow_error("Integer overflow in division");
+        throw std::overflow_error("Overflow in division");
     }
     
     return a / b;
 }
 
-int factorial(int n) {
+double factorial(double n) {
+    if (std::floor(n) != n)
+    {
+        throw std::invalid_argument("Non-integer exponent not supported");
+    }
+    
     if (n < 0)
     {
         throw std::invalid_argument("Factorial not defined for negative numbers");
@@ -89,37 +101,43 @@ int factorial(int n) {
     return result;
 }
 
-int power(int x, int n) {
-    if (n < 0)
-    {
-        throw std::invalid_argument("Negative exponent not supported for integer power");
+double power(double x, double n) {
+    if (std::isnan(x)) {
+        throw std::invalid_argument("Base is NaN");
     }
 
-    if (n == 0)
-    {
-        return 1;
+    if (std::floor(n) != n) {
+        throw std::invalid_argument("Non-integer exponent not supported");
     }
 
-    if (x == 0)
-    {
-        return 0;
+    if (n < 0) {
+        throw std::invalid_argument("Negative exponent not supported for power");
     }
 
-    int64_t result = 1; // For correctly handling overflow
+    if (x == 0.0) {
+        if (n == 0) {
+            return 1.0; // Convention: 0^0 = 1
+        }
+        return 0.0;
+    }
 
-    for (int i = 0; i < n; i++)
-    {
+    if (n == 0) {
+        return 1.0;
+    }
+
+    double result = 1.0;
+
+    for (int i = 0; i < n; ++i) {
         result *= x;
-        if (result > std::numeric_limits<int>::max() || result < std::numeric_limits<int>::min())
-        {
-            throw std::overflow_error("Integer overflow in power calculation");
+        if (std::isinf(result)) {
+            throw std::overflow_error("Overflow in power calculation");
         }
     }
 
-    return static_cast<int>(result); // Cast back to integer
+    return result;
 }
 
-int root(int x, int n) {
+double root(double x, int n) {
     if (n <= 0)
     {
         throw std::invalid_argument("Root degree must be positive");
