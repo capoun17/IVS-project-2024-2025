@@ -9,6 +9,11 @@
 #include <QString>
 #include <QKeyEvent>
 #include "mathlib.h"
+#include "helpdialog.h"
+
+class QPushButton;
+class helpdialog;
+
 
 class Calculator : public QMainWindow
 {
@@ -34,6 +39,7 @@ private slots:
     void powerPressed();
     void rootPressed();
     void gcdPressed();
+    void openHelpDialog();
 
 private:
     // UI Elements
@@ -64,6 +70,10 @@ private:
     void setActiveOperand(const QString &operand);
     QString getActiveOperand();
     void setActiveOperand(double value);
+
+    helpdialog *hdialog;
+    QPushButton *helpButton;
+
 };
 
 #endif // CALCULATOR_H

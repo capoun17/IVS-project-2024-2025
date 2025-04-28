@@ -3,6 +3,12 @@
 #include <QFont>
 #include <QDebug>
 #include <cmath>
+#include "helpdialog.h"
+#include "QPushButton"
+#include <QMenuBar>
+#include <QMenu>
+#include <QAction>
+
 
 Calculator::Calculator(QWidget *parent)
     : QMainWindow(parent), isNewInput(true), hasError(false), justPressedEqual(false)
@@ -30,6 +36,20 @@ void Calculator::setupUi()
     mainLayout = new QGridLayout(centralWidget);
     mainLayout->setSpacing(0);
     mainLayout->setContentsMargins(0, 0, 0, 0);
+
+    // Create menu bar on top
+    QMenuBar *menuBar = new QMenuBar(this);
+    setMenuBar(menuBar);
+
+    // Create help menu
+    QMenu *helpMenu = new QMenu("Help", this);
+    menuBar->addMenu(helpMenu);
+
+    QAction *helpAction = new QAction("Open Help", this);
+    helpMenu->addAction(helpAction);
+
+    connect(helpAction, &QAction::triggered, this, &Calculator::openHelpDialog);
+
 
     // Create display area
     QVBoxLayout *displayLayout = new QVBoxLayout();
@@ -590,4 +610,10 @@ void Calculator::setActiveOperand(double value)
     }
 
     setActiveOperand(valueStr);
+}
+
+void Calculator::openHelpDialog()
+{
+    helpdialog hdialog(this);
+    hdialog.exec();
 }

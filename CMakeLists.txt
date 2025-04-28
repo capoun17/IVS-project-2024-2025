@@ -17,6 +17,9 @@ add_executable(SkibidiCalculator
     calculator.h
     mathlib.cpp
     mathlib.h
+    helpdialog.h helpdialog.cpp
+
+
 )
 
 target_include_directories(SkibidiCalculator PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
