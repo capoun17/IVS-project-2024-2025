@@ -10,6 +10,9 @@ set(CMAKE_AUTOUIC ON)
 # Qt
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets)
 
+# Option to build the main app
+option(BUILD_APP "Build the SkibidiCalculator app" ON)
+
 # === Main app ===
 add_executable(SkibidiCalculator
     main.cpp
