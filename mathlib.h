@@ -1,3 +1,8 @@
+/**
+ * @brief Header file for mathlib.cpp
+ * @author xcapka06
+ */
+
 #ifndef MATHLIB_H
 #define MATHLIB_H
 
@@ -6,43 +11,43 @@
 #include <cmath>
 
 /**
- * @brief Adds 2 integers with overflow check
- * @param a First integer
- * @param b Second integer
+ * @brief Adds 2 numbers with overflow check
+ * @param a First number
+ * @param b Second number
  * @return a + b
  * @throws std::overflow_error if the result would overflow
  */
 double add(double a, double b);
 
 /**
- * @brief Subtracts 2 integers with overflow check
- * @param a First integer
- * @param b Second integer
+ * @brief Subtracts 2 numbers with overflow check
+ * @param a First number
+ * @param b Second number
  * @return a - b
  * @throws std::overflow_error if the result would overflow
  */
 double substract(double a, double b);
 
 /**
- * @brief Multiplies 2 integers with overflow check
- * @param a First integer
- * @param b Second integer
+ * @brief Multiplies 2 numbers with overflow check
+ * @param a First number
+ * @param b Second number
  * @return a * b
  * @throws std::overflow_error if the result would overflow
  */
 double multiply(double a, double b);
 
 /**
- * @brief Divides 2 integers with division by zero check
- * @param a First integer
- * @param b Second integer
+ * @brief Divides 2 numbers with division by zero check
+ * @param a First number
+ * @param b Second number
  * @return a / b
  * @throws std::invalid_argument if b is zero
  */
 double divide(double a, double b);
 
 /**
- * @brief Calculates factorial of an integer
+ * @brief Calculates factorial of a number
  * @param n Integer
  * @return n!
  * @throws std::invalid_argument if n is negative

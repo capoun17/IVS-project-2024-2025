@@ -1,3 +1,8 @@
+/**
+ * @brief Mathematical library implemnting basic operations and overflow checks
+ * @author xcapka06
+ */
+
 #include "mathlib.h"
 #include <limits>
 #include <cmath>
@@ -61,7 +66,7 @@ double divide(double a, double b) {
     }
     
     double result = a / b;
-    // Check for overflow in division (only happens with INT_MIN / -1)
+    // Check for overflow
     if (std::isinf(result))
     {
         throw std::overflow_error("Overflow in division");
@@ -93,7 +98,7 @@ double factorial(double n) {
         // Check for overflow before multiplying
         if (result > std::numeric_limits<int>::max() / i)
         {
-            throw std::overflow_error("Integer overflow in factorial");
+            throw std::overflow_error("Overflow in factorial");
         }
         result *= i;
     }
@@ -116,7 +121,7 @@ double power(double x, double n) {
 
     if (x == 0.0) {
         if (n == 0) {
-            return 1.0; // Convention: 0^0 = 1
+            return 1.0; // 0^0 = 1
         }
         return 0.0;
     }
@@ -127,6 +132,7 @@ double power(double x, double n) {
 
     double result = 1.0;
 
+    // Count result and check for overflow
     for (int i = 0; i < n; ++i) {
         result *= x;
         if (std::isinf(result)) {
@@ -156,42 +162,42 @@ double root(double x, int n) {
     
     // For odd roots of negative numbers, result will be negative
     bool negative = (x < 0);
-    int absX = negative ? -x : x;
+    double absX = negative ? -x : x;
     
-    // Binary search for the integer root (geeksforgeeks)
-    int left = 0;
-    int right = absX;
-    int result = 0;
+    // Binary search for the root (geeksforgeeks)
+    double left = 0;
+    double right = absX;
+    double result = 0;
+
+    double tolerance = 1e-6;
     
     while (left <= right)
     {
-        int mid = left + (right - left) / 2;
+        double mid = left + (right - left) / 2;
         
         // Check if mid^n would overflow
         bool overflow = false;
-        int powResult = 1;
+        double powResult = 1.0;
         
-        for (int i = 0; i < n && !overflow; ++i)
-        {
-            if (powResult > std::numeric_limits<int>::max() / mid)
-            {
-                overflow = true;
-            }
-            else 
-            {
-                powResult *= mid;
-            }
+        for (int i = 0; i < n; ++i) {
+            powResult *= mid;
         }
         
-        if (overflow || powResult > absX)
+        if (powResult > absX)
         {
-            right = mid - 1;
+            right = mid - tolerance;
         }
-        else 
+        else if (powResult < absX)
+        {
+            left = mid + tolerance;
+        }
+        else
         {
             result = mid;
-            left = mid + 1;
+            break;
         }
+
+        result = mid;
     }
     
     return negative && n % 2 == 1 ? -result : result;

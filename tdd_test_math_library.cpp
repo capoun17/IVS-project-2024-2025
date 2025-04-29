@@ -111,20 +111,20 @@ TEST(MathLibraryTest, PowerTest) {
 
 // root(x,n) = n-th root of x
 TEST(MathLibraryTest, RootTest) {
-    EXPECT_EQ(root(4, 2), 2);
-    EXPECT_EQ(root(16, 2), 4);
-    EXPECT_EQ(root(81, 2), 9);
-    EXPECT_EQ(root(27, 3), 3);
-    EXPECT_EQ(root(-125, 3), -5);
-    EXPECT_EQ(root(36, 2), 6);
+    EXPECT_NEAR(root(4.0, 2), 2.0, 1e-5);
+    EXPECT_NEAR(root(16.0, 2), 4.0, 1e-5);
+    EXPECT_NEAR(root(81.0, 2), 9.0, 1e-5);
+    EXPECT_NEAR(root(27.0, 3), 3.0, 1e-5);
+    EXPECT_NEAR(root(-125.0, 3), -5.0, 1e-5);
+    EXPECT_NEAR(root(36.0, 2), 6.0, 1e-5);
     EXPECT_THROW(root(5, 0), std::invalid_argument);
     EXPECT_THROW(root(-36, 2), std::invalid_argument);
     EXPECT_THROW(root(64, -3), std::invalid_argument);
     
-    EXPECT_DOUBLE_EQ(root(-27.0, 3), -3.0);
-    EXPECT_DOUBLE_EQ(root(81.0, 4), 3.0);
-    EXPECT_DOUBLE_EQ(root(32.0, 5), 2.0);
-    EXPECT_DOUBLE_EQ(root(243.0, 5), 3.0);
+    EXPECT_NEAR(root(-27.0, 3), -3.0, 1e-5);
+    EXPECT_NEAR(root(81.0, 4), 3.0, 1e-5);
+    EXPECT_NEAR(root(32.0, 5), 2.0, 1e-5);
+    EXPECT_NEAR(root(243.0, 5), 3.0, 1e-5);
     EXPECT_THROW(root(88.0, -4.5), std::invalid_argument);
     EXPECT_THROW(root(-16.0, 2.0), std::invalid_argument);
 }
