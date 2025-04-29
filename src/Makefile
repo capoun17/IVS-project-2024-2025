@@ -59,7 +59,8 @@ pack: clean doc
 	@cp -r ../install/* ../pack/install/
 
 	@cp -r ../.git ../pack/repo/.git
-	@cp -r ../* ../pack/repo/
+	@rsync -a --exclude=pack ../ ../pack/repo/
+
 
 	cd ../pack && zip -r ../$(FILE_NAME).zip *
 
