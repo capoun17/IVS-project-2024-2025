@@ -60,16 +60,26 @@ void Calculator::setupUi()
     operationDisplay->setFont(operationFont);
     operationDisplay->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
     operationDisplay->setMinimumHeight(30);
+    operationDisplay->setStyleSheet("color: #373737;");
 
     resultDisplay = new QLabel("0");
     QFont resultFont("Arial", 36, QFont::Bold);
     resultDisplay->setFont(resultFont);
     resultDisplay->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
     resultDisplay->setMinimumHeight(60);
+    resultDisplay->setStyleSheet("color: #373737;");
+
+    // Store the normal font for later use
+    normalFont = resultFont;
+
+    // Create a smaller font for error messages
+    errorFont = resultFont;
+    errorFont.setPointSize(resultFont.pointSize() / 2);
 
     horizontalLine = new QFrame();
     horizontalLine->setFrameShape(QFrame::HLine);
     horizontalLine->setFrameShadow(QFrame::Sunken);
+    horizontalLine->setStyleSheet("color: #373737;");
 
     displayLayout->addWidget(operationDisplay);
     displayLayout->addWidget(horizontalLine);
@@ -237,6 +247,7 @@ void Calculator::digitPressed()
     if (hasError) {
         clearAll();
         hasError = false;
+        resultDisplay->setFont(normalFont); // Reset to normal font
     }
 
     currentInput += button->text();
@@ -256,6 +267,12 @@ void Calculator::operationPressed()
         return;
     }
 
+    if (hasError) {
+        clearAll();
+        hasError = false;
+        resultDisplay->setFont(normalFont); // Reset to normal font
+    }
+
     currentOperation = newOperation;
     processOperation();
 }
@@ -264,6 +281,7 @@ void Calculator::processOperation()
 {
     if (hasError) {
         clearAll();
+        resultDisplay->setFont(normalFont); // Reset to normal font
         return;
     }
 
@@ -276,6 +294,8 @@ void Calculator::processOperation()
             firstOperand = result;
             secondOperand = "";
             currentInput = "";
+        } else {
+            return; // Don't proceed if there was an error
         }
     } else if (currentInput.isEmpty() && firstOperand.isEmpty()) {
         // If no input and no first operand, use 0 as first operand
@@ -294,6 +314,7 @@ void Calculator::equalPressed()
 {
     if (hasError) {
         clearAll();
+        resultDisplay->setFont(normalFont); // Reset to normal font
         return;
     }
 
@@ -314,7 +335,13 @@ void Calculator::equalPressed()
     }
 
     // Store the full expression for history
-    QString fullExpression = firstOperand + " " + currentOperation + " " + secondOperand + " =";
+    QString fullExpression;
+    if (currentOperation == "√") {
+        // For root operation, reverse the order
+        fullExpression = secondOperand + " " + currentOperation + " " + firstOperand + " =";
+    } else {
+        fullExpression = firstOperand + " " + currentOperation + " " + secondOperand + " =";
+    }
 
     QString result = calculateResult();
 
@@ -326,17 +353,23 @@ void Calculator::equalPressed()
         currentInput = result;
         currentOperation = "";
         secondOperand = "";
+        resultDisplay->setText(result);
     }
 
     isNewInput = true;
     justPressedEqual = true;  // Set flag that we just pressed equal
-    resultDisplay->setText(result);
 }
 
 void Calculator::clearEntry()
 {
     currentInput = "0";
     isNewInput = true;
+
+    if (hasError) {
+        hasError = false;
+        resultDisplay->setFont(normalFont); // Reset to normal font
+    }
+
     updateDisplay();
 }
 
@@ -347,13 +380,24 @@ void Calculator::clearAll()
     secondOperand = "";
     currentOperation = "";
     isNewInput = true;
-    hasError = false;
+
+    if (hasError) {
+        hasError = false;
+        resultDisplay->setFont(normalFont); // Reset to normal font
+    }
+
     justPressedEqual = false;
     updateDisplay();
 }
 
 void Calculator::deleteLastChar()
 {
+    if (hasError) {
+        clearAll();
+        resultDisplay->setFont(normalFont); // Reset to normal font
+        return;
+    }
+
     if (!currentInput.isEmpty()) {
         currentInput.chop(1);
 
@@ -369,6 +413,12 @@ void Calculator::deleteLastChar()
 
 void Calculator::changeSign()
 {
+    if (hasError) {
+        clearAll();
+        resultDisplay->setFont(normalFont); // Reset to normal font
+        return;
+    }
+
     if (currentInput.isEmpty()) {
         return;
     }
@@ -384,6 +434,12 @@ void Calculator::changeSign()
 
 void Calculator::decimalPointPressed()
 {
+    if (hasError) {
+        clearAll();
+        resultDisplay->setFont(normalFont); // Reset to normal font
+        return;
+    }
+
     if (isNewInput) {
         currentInput = "0";
         isNewInput = false;
@@ -398,27 +454,34 @@ void Calculator::decimalPointPressed()
 
 void Calculator::factorialPressed()
 {
+    if (hasError) {
+        clearAll();
+        resultDisplay->setFont(normalFont); // Reset to normal font
+        return;
+    }
+
     if (currentInput.isEmpty() && firstOperand.isEmpty()) {
         return;
     }
 
     QString operand = getActiveOperand();
 
-    // Factorial only works on integers
+    // Convert to double for factorial
     bool ok;
-    int value = operand.toInt(&ok);
+    double value = operand.replace(',', '.').toDouble(&ok);
 
     if (!ok) {
-        handleError(std::invalid_argument("Factorial requires an integer"));
+        handleError(std::invalid_argument("Invalid number format"));
         return;
     }
 
     try {
-        int result = factorial(value);
+        double result = factorial(value);
         setActiveOperand(result);
         updateDisplay();
     } catch (const std::exception &e) {
         handleError(e);
+        return; // Return early to prevent further processing
     }
 
     isNewInput = true;
@@ -427,18 +490,36 @@ void Calculator::factorialPressed()
 
 void Calculator::powerPressed()
 {
+    if (hasError) {
+        clearAll();
+        resultDisplay->setFont(normalFont); // Reset to normal font
+        return;
+    }
+
     currentOperation = "^";
     processOperation();
 }
 
 void Calculator::rootPressed()
 {
+    if (hasError) {
+        clearAll();
+        resultDisplay->setFont(normalFont); // Reset to normal font
+        return;
+    }
+
     currentOperation = "√";
     processOperation();
 }
 
 void Calculator::gcdPressed()
 {
+    if (hasError) {
+        clearAll();
+        resultDisplay->setFont(normalFont); // Reset to normal font
+        return;
+    }
+
     currentOperation = "x|y";
     processOperation();
 }
@@ -451,10 +532,13 @@ void Calculator::updateDisplay()
         QString operationText = "";
 
         if (!firstOperand.isEmpty()) {
-            operationText = firstOperand;
-
-            if (!currentOperation.isEmpty()) {
-                operationText += " " + currentOperation;
+            if (currentOperation == "√") {
+                // For root operation, show operation first, then first operand
+                operationText = currentOperation + " " + firstOperand;
+            } else if (!currentOperation.isEmpty()) {
+                operationText = firstOperand + " " + currentOperation;
+            } else {
+                operationText = firstOperand;
             }
         }
 
@@ -463,7 +547,7 @@ void Calculator::updateDisplay()
 
     // Update result display
     if (hasError) {
-        resultDisplay->setText("Error");
+        // Error is already set in handleError
     } else if (!currentInput.isEmpty()) {
         resultDisplay->setText(currentInput);
     } else if (!firstOperand.isEmpty()) {
@@ -486,64 +570,35 @@ QString Calculator::calculateResult()
 
     if (!ok1 || !ok2) {
         handleError(std::invalid_argument("Invalid number format"));
-        return "0";
+        return ""; // Return empty string to indicate error
     }
 
     try {
         double result = 0;
 
-        // For integer-only operations, check if values are integers
-        bool isInt1 = (num1 == std::floor(num1));
-        bool isInt2 = (num2 == std::floor(num2));
-
         if (currentOperation == "+") {
-            if (isInt1 && isInt2 && num1 <= INT_MAX && num1 >= INT_MIN &&
-                num2 <= INT_MAX && num2 >= INT_MIN) {
-                result = add(static_cast<int>(num1), static_cast<int>(num2));
-            } else {
-                result = num1 + num2;
-            }
+            result = add(num1, num2);
         } else if (currentOperation == "-") {
-            if (isInt1 && isInt2 && num1 <= INT_MAX && num1 >= INT_MIN &&
-                num2 <= INT_MAX && num2 >= INT_MIN) {
-                result = substract(static_cast<int>(num1), static_cast<int>(num2));
-            } else {
-                result = num1 - num2;
-            }
+            result = substract(num1, num2);
         } else if (currentOperation == "x") {
-            if (isInt1 && isInt2 && num1 <= INT_MAX && num1 >= INT_MIN &&
-                num2 <= INT_MAX && num2 >= INT_MIN) {
-                result = multiply(static_cast<int>(num1), static_cast<int>(num2));
-            } else {
-                result = num1 * num2;
-            }
+            result = multiply(num1, num2);
         } else if (currentOperation == "/") {
-            if (num2 == 0) {
-                throw std::invalid_argument("Division by zero");
-            }
-
-            if (isInt1 && isInt2 && num1 <= INT_MAX && num1 >= INT_MIN &&
-                num2 <= INT_MAX && num2 >= INT_MIN) {
-                result = divide(static_cast<int>(num1), static_cast<int>(num2));
-            } else {
-                result = num1 / num2;
-            }
+            result = divide(num1, num2);
         } else if (currentOperation == "^") {
-            if (isInt1 && isInt2 && num2 >= 0 && num2 <= INT_MAX) {
-                result = power(static_cast<int>(num1), static_cast<int>(num2));
-            } else {
-                result = std::pow(num1, num2);
-            }
+            result = power(num1, num2);
         } else if (currentOperation == "x|y") {
-            if (!isInt1 || !isInt2) {
+            // GCD requires integers
+            if (std::floor(num1) != num1 || std::floor(num2) != num2) {
                 throw std::invalid_argument("GCD requires integers");
             }
             result = greatest_common_divisor(static_cast<int>(num1), static_cast<int>(num2));
         } else if (currentOperation == "√") {
-            if (!isInt1 || !isInt2) {
-                throw std::invalid_argument("Root operation requires integers");
+            // Root function expects an integer for the degree
+            if (std::floor(num2) != num2) {
+                throw std::invalid_argument("Root degree must be an integer");
             }
-            result = root(static_cast<int>(num2), static_cast<int>(num1));
+            int degree = static_cast<int>(num2);
+            result = root(num1, degree);
         }
 
         // Format the result
@@ -564,13 +619,14 @@ QString Calculator::calculateResult()
 
     } catch (const std::exception &e) {
         handleError(e);
-        return "0";
+        return ""; // Return empty string to indicate error
     }
 }
 
 void Calculator::handleError(const std::exception &e)
 {
     hasError = true;
+    resultDisplay->setFont(errorFont); // Use smaller font for error messages
     resultDisplay->setText(QString("Error: %1").arg(e.what()));
     currentInput = "";
 }
