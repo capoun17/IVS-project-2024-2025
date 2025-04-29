@@ -1,0 +1,75 @@
+Plán projektu IVS 2024/2025 pro tým xcapka06
+
+Členové týmu:
+
+- xcapka06 - Adam František Čapka
+- xjanou24 - Filip Janoušek
+- xlepes00 - Matěj Lepeška
+- xstranj00 - Jakub Stránský
+
+Komunikace
+
+- jako primární komunikační platformu pro tento projekt jsme zvolili aplikaci Discord, kde jsme založili skupinu, ve které byli obsaženi všichni členové týmu
+- sekundárně jsme se domluvili na osobních schůzkách na fakultě
+
+Další informace 
+
+Team captain - xcapka06
+Vývojové prostředí - Ubuntu 24.04
+Zvolený programovací jazyk - C++
+Pro vývoj UI byl zvolen framework Qt
+Jazyk kódu - Angličtina
+Styl psaní kódu - camelCase
+Místo pro verzování a správu kódu - Github
+Adresa repozitáře - 
+	Web : https://github.com/capoun17/IVS-project-2024-2025
+	Clone : https://github.com/capoun17/IVS-project-2024-2025.git
+Hosting - github.com - byl zaslán invite pro uživatele ivskontrola
+Platforma pro grafický návrh GUI - Figma
+
+Termíny:
+
+1. termín - 20. 3.
+
+- vytvoření Discord skupiny - xcapka06
+- vytvoření repozitáře na Github - xcapka06
+- vytvoření plánu pro práci - celý tým
+
+2. termín - 6. 4.
+
+- grafický návrh GUI - xjanou24
+- TDD testy pro matematickou knihovnu - xstranj00
+
+3. termín - 13. 4. 
+
+- implementace matematické knihovny - xcapka06
+- implementace GUI - xjanou24
+- Makefile - xlepes00
+
+4. termín - 20. 4.
+
+- propojení GUI a matematické knihovny - xcapka06
+- nápověda - xstranj00
+- uživatelská příručka - xjanou24
+
+5. termín - 27. 4. 
+
+- optimalizace - xcapka06, xjanou24
+- profiling - xlepes00
+- vytvoření instalátoru a odinstalátoru - xstranj00
+
+6. termín - 1. 5.
+
+- dokumentace - xcapka06
+- Readme - xlepes00
+- zhodnocení projektu - celý tým
+- testování aplikace - celý tým
+- manuál k instalaci o odinstalaci - xstranj00
+
+7. termín - 15. 5.
+
+- vytvoření souboru s problémy - celý tým
+- chystání na obhajobu projektu - celý tým
+
+Úkoly mají zadaného primárně pouze jednoho řešitele, ale očekává se, že na některých úkolech budou vypomáhat ostatní členové týmu, aby byla práce dříve hotová.
+
