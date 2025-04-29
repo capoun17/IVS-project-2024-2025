@@ -76,3 +76,19 @@ if(BUILD_TESTS)
     include(GoogleTest)
     gtest_discover_tests(test_math)
 endif()
+
+# === Creating package with CPack ===
+include(InstallRequiredSystemLibraries)
+
+set(CPACK_PACKAGE_NAME "skibidicalculator")
+set(CPACK_PACKAGE_VERSION "${PROJECT_VERSION}")
+set(CPACK_DESCRIPTION "A calculator app")
+set(CPACK_PACKAGE_VENDOR "SkibidiCalc")
+set(CPACK_PACKAGE_CONTACT "xstranj00@stud.fit.vut.cz")
+set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Jakub Stránský")
+set(CPACK_PACKAGE_LICENSE "GNU")
+
+set(CPACK_GENERATOR "DEB")
+set(CPACK_DEB_PACKAGE_DEPENDS "libc6 (>= 2.7)")
+
+include (CPack)
