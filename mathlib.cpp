@@ -8,6 +8,10 @@
 #include <cmath>
 #include <stdexcept>
 
+double round_to_1e5(double value) {
+    return std::round(value * 1e5) / 1e5;
+}
+
 double add(double a, double b) {
 
     double result = a + b;
@@ -36,8 +40,8 @@ double substract(double a, double b) {
     {
         throw std::overflow_error("Overflow in subtraction");
     }
-
-    return add(a, -b);
+    double result = add(a, -b);
+    return result;
 }
 
 double multiply(double a, double b) {
@@ -72,7 +76,7 @@ double divide(double a, double b) {
         throw std::overflow_error("Overflow in division");
     }
     
-    return a / b;
+    return result;
 }
 
 double factorial(double n) {
@@ -140,7 +144,7 @@ double power(double x, double n) {
         }
     }
 
-    return result;
+    return round_to_1e5(result);
 }
 
 double root(double x, int n) {
@@ -200,7 +204,7 @@ double root(double x, int n) {
         result = mid;
     }
     
-    return negative && n % 2 == 1 ? -result : result;
+    return round_to_1e5(negative && n % 2 == 1 ? -result : result);
 }
 
 int greatest_common_divisor(int a, int b) {

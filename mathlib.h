@@ -10,6 +10,14 @@
 #include <limits>
 #include <cmath>
 
+
+/**
+ * @brief Rounds a number to 5 decimal places
+ * @param value Number to round
+ * @return Rounded number
+ */
+double round_to_1e5(double value);
+
 /**
  * @brief Adds 2 numbers with overflow check
  * @param a First number
