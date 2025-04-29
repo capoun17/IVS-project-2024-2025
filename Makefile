@@ -71,9 +71,9 @@ doc:
 	doxygen Doxyfile
 
 #Compile stddev
-stddev:
+stddev: stddev.cpp mathlib.cpp
 	@$(MKDIR) $(BUILD_DIR)
-	@g++ -pg -O2 -o $(BUILD_DIR)/stddev stddev.cpp
+	g++ -pg -g -o $(BUILD_DIR)/stddev stddev.cpp mathlib.cpp
 
 #Print help
 help:
