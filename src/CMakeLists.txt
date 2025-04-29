@@ -88,7 +88,11 @@ set(CPACK_PACKAGE_CONTACT "xstranj00@stud.fit.vut.cz")
 set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Jakub Stránský")
 set(CPACK_PACKAGE_LICENSE "GNU")
 
-set(CPACK_GENERATOR "DEB")
-set(CPACK_DEB_PACKAGE_DEPENDS "libc6 (>= 2.7)")
+set(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6 (>= 2.7), libqt6widgets6")
 
+install(TARGETS SkibidiCalculator
+    RUNTIME DESTINATION bin
+)
+
+set(CPACK_GENERATOR "DEB")
 include (CPack)
