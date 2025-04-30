@@ -1,4 +1,4 @@
-xcapka06 100 (matematická knihovna, dokumentace)
+xcapka06 100 (matematická knihovna, dokumentace, pomoc u testů, debugging)
 xjanou24 100 (návrh a vytvoření GUI, propojení matematické knihovny a GUI, uživatelská příručka, mockupy)
 xlepes00 100 (Makefile, profiling, Readme)
 xstranj00 100 (TDD testy, nápověda, instalátor a odinstalátor + manuál k nim)
