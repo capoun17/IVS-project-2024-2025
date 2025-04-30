@@ -1,5 +1,11 @@
 Kvůli množství zadaných projektů v tomto semestru, jsme bohužel nestíhali předem stanovené termíny dokončení jednotlivých částí.
-Nakonec jsme všechny části stihli včas dodělat a měli jsme i den čas na kontrolu a dodatečné testování programu.
+Nakonec jsme všechny části stihli včas dodělat a měli jsme i den čas na kontrolu a dodatečné testování programu. 
+To probíhalo ve virtuálním prostředí a na vlastních zařízeních.
 
-Úkoly byly jednotlivými členy vypracovány přesně tak, jak bylo stanovené na naší první schůzce - konkrétní rozdělení práce je přesně popsané v plánu pro projekt s tím, 
-že všechny části programů byli všem členy týmu konzultováný a v některých případech i následně upravovány podle připomínek.
+Úkoly byly jednotlivými členy vypracovány tak, jak bylo stanovené na naší první schůzce, jedinou změnou v plánu bylo propojení knihovny s GUI, 
+které si vzal na starost xjanou24 - konkrétní rozdělení práce je přesně popsané v plánu pro projekt s tím, 
+že všechny části programů byli všem členy týmu konzultovány a v některých případech i následně upravovány podle připomínek. 
+
+V plánu byla opomenuta tvorba mockupů, kterou si vzal na starosti také xjanou24.
+
+Komunikace probíhala na platformě discord v týmové skupině, bylo vedeno několik schúzek zaměřující se na různé části projektu.
