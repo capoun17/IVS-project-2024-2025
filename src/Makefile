@@ -7,18 +7,18 @@ ifeq ($(OS),Windows_NT)
     RM=del /q /s
     RMDIR=rmdir /s /q
     MKDIR=mkdir
-    COPY=copy
     REMOVE_DIR=@if exist $(BUILD_DIR) ($(RMDIR) $(BUILD_DIR)) \
 			   if exist ../doc ($(RMDIR) ../doc) \
+			   if exist gmon.out ($(RM) gmon.out) \
                if exist ../$(FILE_NAME).zip ( del /q ../$(FILE_NAME).zip )
 else
     RM=rm -f
     RMDIR=rm -rf
     MKDIR=mkdir -p
-    COPY=cp
     REMOVE_DIR=@if [ -d $(BUILD_DIR) ]; then $(RMDIR) $(BUILD_DIR); fi; \
 			   if [ -d ../doc ]; then $(RMDIR) ../doc; fi; \
-               if [ -f ../$(FILE_NAME).zip ]; then rm -f ../$(FILE_NAME).zip; fi
+			   if [ -f gmon.out ]; then $(RM) gmon.out; fi; \
+               if [ -f ../$(FILE_NAME).zip ]; then $(RM) ../$(FILE_NAME).zip; fi
 endif
 
 .PHONY: all clean run pack test doc stddev
