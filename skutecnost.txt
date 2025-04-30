@@ -1,0 +1,5 @@
+Kvůli množství zadaných projektů v tomto semestru, jsme bohužel nestíhali předem stanovené termíny dokončení jednotlivých částí.
+Nakonec jsme všechny části stihli včas dodělat a měli jsme i den čas na kontrolu a dodatečné testování programu.
+
+Úkoly byly jednotlivými členy vypracovány přesně tak, jak bylo stanovené na naší první schůzce - konkrétní rozdělení práce je přesně popsané v plánu pro projekt s tím, 
+že všechny části programů byli všem členy týmu konzultováný a v některých případech i následně upravovány podle připomínek.
